@@ -14,7 +14,6 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        // Statistiques générales
         $totalVentes = Order::where('statut_paiement', 'paye')->sum('montant_total');
         $totalCommandes = Order::count();
         $totalClients = User::where('role', 'client')->count();
@@ -23,7 +22,6 @@ class DashboardController extends Controller
         $commandesEnAttente = Order::where('statut', 'en_attente')->count();
         $vendeursEnAttente = Vendor::where('statut', 'en_attente')->count();
 
-        // Graphique commandes par mois
         $commandesMois = Order::select(
             DB::raw('DATE_FORMAT(created_at, "%b %Y") as mois'),
             DB::raw('COUNT(*) as total'),
@@ -37,7 +35,6 @@ class DashboardController extends Controller
         $moisLabels = $commandesMois->pluck('mois');
         $moisData   = $commandesMois->pluck('revenus');
 
-        // Top produits
         $topProduits = Product::select('products.*',
             DB::raw('SUM(order_items.quantite) as total_vendus')
         )
@@ -47,13 +44,11 @@ class DashboardController extends Controller
         ->take(5)
         ->get();
 
-        // Dernières commandes
         $dernieresCommandes = Order::with('user')
             ->latest()
             ->take(5)
             ->get();
 
-        // Vendeurs en attente
         $vendeursAttente = Vendor::with('user')
             ->where('statut', 'en_attente')
             ->latest()

@@ -42,7 +42,7 @@ Route::middleware(['auth'])->group(function () {
 });
 
 // ========== ADMIN ==========
-Route::prefix('admin')->middleware(['auth'])->name('admin.')->group(function () {
+Route::prefix('admin')->middleware(['auth', 'admin'])->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminDashboard::class, 'index'])->name('dashboard');
 
     // Catégories
@@ -63,9 +63,7 @@ Route::prefix('admin')->middleware(['auth'])->name('admin.')->group(function () 
 });
 
 // ========== VENDEUR ==========
-Route::prefix('vendeur')->middleware(['auth'])->name('vendor.')->group(function () {
+Route::prefix('vendeur')->middleware(['auth', 'vendor'])->name('vendor.')->group(function () {
     Route::get('/dashboard', [VendorDashboard::class, 'index'])->name('dashboard');
-
-    // Produits vendeur
     Route::resource('products', VendorProduct::class);
 });

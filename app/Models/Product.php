@@ -59,4 +59,15 @@ class Product extends Model
             $product->slug = \Str::slug($product->nom) . '-' . uniqid();
         });
     }
+    // Relation avec les avis
+public function reviews()
+{
+    return $this->hasMany(Review::class);
+}
+
+// Note moyenne
+public function noteMoyenne(): float
+{
+    return round($this->reviews()->avg('note'), 1);
+}
 }

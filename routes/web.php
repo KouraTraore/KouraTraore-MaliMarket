@@ -67,3 +67,6 @@ Route::prefix('vendeur')->middleware(['auth', 'vendor'])->name('vendor.')->group
     Route::get('/dashboard', [VendorDashboard::class, 'index'])->name('dashboard');
     Route::resource('products', VendorProduct::class);
 });
+// Avis clients
+Route::post('/produit/{id}/avis', [App\Http\Controllers\Shop\ReviewController::class, 'store'])->name('review.store');
+Route::delete('/avis/{id}', [App\Http\Controllers\Shop\ReviewController::class, 'destroy'])->name('review.destroy');

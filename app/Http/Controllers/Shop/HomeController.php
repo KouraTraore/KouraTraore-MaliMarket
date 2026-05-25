@@ -12,13 +12,16 @@ class HomeController extends Controller
     public function index()
     {
         $categories = Category::where('active', true)->get();
+
         $produitsRecents = Product::with(['vendor', 'category'])
             ->where('statut', 'actif')
             ->latest()
             ->take(8)
             ->get();
+
         $produitsPopulaires = Product::with(['vendor', 'category'])
             ->where('statut', 'actif')
+            ->whereNotIn('id', $produitsRecents->pluck('id'))
             ->orderBy('vues', 'desc')
             ->take(8)
             ->get();
@@ -32,7 +35,7 @@ class HomeController extends Controller
 
     public function show($slug)
     {
-        $product = Product::with(['vendor', 'category'])
+        $product = Product::with(['vendor', 'category', 'reviews'])
             ->where('slug', $slug)
             ->where('statut', 'actif')
             ->firstOrFail();

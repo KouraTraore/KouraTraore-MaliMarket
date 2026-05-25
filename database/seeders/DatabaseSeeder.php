@@ -85,14 +85,14 @@ class DatabaseSeeder extends Seeder
 
         // ========== CATEGORIES ==========
         $cats = [
-            ['nom' => 'Téléphones', 'image' => 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=200'],
-            ['nom' => 'Vêtements', 'image' => 'https://images.unsplash.com/photo-1445205170230-053b83016050?w=200'],
-            ['nom' => 'Chaussures', 'image' => 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=200'],
-            ['nom' => 'Électronique', 'image' => 'https://images.unsplash.com/photo-1498049794561-7780e7231661?w=200'],
-            ['nom' => 'Alimentation', 'image' => 'https://images.unsplash.com/photo-1606787366850-de6330128bfc?w=200'],
-            ['nom' => 'Artisanat', 'image' => 'https://images.unsplash.com/photo-1590736969955-71cc94801759?w=200'],
-            ['nom' => 'Beauté', 'image' => 'https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=200'],
-            ['nom' => 'Informatique', 'image' => 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=200'],
+            ['nom' => 'Téléphones',   'image' => 'images/categories/telephones.jpg'],
+            ['nom' => 'Vêtements',    'image' => 'images/categories/vetements.jpg'],
+            ['nom' => 'Chaussures',   'image' => 'images/categories/chaussures.jpg'],
+            ['nom' => 'Électronique', 'image' => 'images/categories/electronique.jpg'],
+            ['nom' => 'Alimentation', 'image' => 'images/categories/alimentation.jpg'],
+            ['nom' => 'Artisanat',    'image' => 'images/categories/artisanat.jpg'],
+            ['nom' => 'Beauté',       'image' => 'images/categories/beaute.jpg'],
+            ['nom' => 'Informatique', 'image' => 'images/categories/informatique.jpg'],
         ];
 
         $categories = [];
@@ -116,7 +116,7 @@ class DatabaseSeeder extends Seeder
                 'prix'        => 285000,
                 'prix_promo'  => 265000,
                 'stock'       => 15,
-                'image'       => 'https://images.unsplash.com/photo-1610945264803-c22b62d2a7b3?w=400',
+                'image'       => 'images/products/samsung.jpg',
                 'statut'      => 'actif',
             ],
             [
@@ -127,7 +127,7 @@ class DatabaseSeeder extends Seeder
                 'prix'        => 550000,
                 'prix_promo'  => null,
                 'stock'       => 8,
-                'image'       => 'https://images.unsplash.com/photo-1632661674596-df8be070a5c5?w=400',
+                'image'       => 'images/products/iphone.jpg',
                 'statut'      => 'actif',
             ],
             [
@@ -138,7 +138,7 @@ class DatabaseSeeder extends Seeder
                 'prix'        => 95000,
                 'prix_promo'  => 85000,
                 'stock'       => 25,
-                'image'       => 'https://images.unsplash.com/photo-1607936854279-55e8a4c64888?w=400',
+                'image'       => 'images/products/tecno.jpg',
                 'statut'      => 'actif',
             ],
             // Vêtements
@@ -150,7 +150,8 @@ class DatabaseSeeder extends Seeder
                 'prix'        => 45000,
                 'prix_promo'  => null,
                 'stock'       => 20,
-                'image' => 'images/products/boubou.jpg',    
+                'image'       => 'images/products/boubou.jpg',
+                'statut'      => 'actif',
             ],
             [
                 'vendor_id'   => $boutique2->id,
@@ -160,7 +161,7 @@ class DatabaseSeeder extends Seeder
                 'prix'        => 35000,
                 'prix_promo'  => 28000,
                 'stock'       => 15,
-                'image' => 'https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?w=400',
+                'image'       => 'images/products/robe.jpg',
                 'statut'      => 'actif',
             ],
             [
@@ -171,7 +172,7 @@ class DatabaseSeeder extends Seeder
                 'prix'        => 8500,
                 'prix_promo'  => null,
                 'stock'       => 50,
-                'image'       => 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400',
+                'image'       => 'images/products/tshirt.jpg',
                 'statut'      => 'actif',
             ],
             // Chaussures
@@ -183,7 +184,7 @@ class DatabaseSeeder extends Seeder
                 'prix'        => 18000,
                 'prix_promo'  => 15000,
                 'stock'       => 30,
-                'image'       => 'https://images.unsplash.com/photo-1603487742131-4160ec999306?w=400',
+                'image'       => 'images/products/sandale.jpg',
                 'statut'      => 'actif',
             ],
             [
@@ -194,7 +195,7 @@ class DatabaseSeeder extends Seeder
                 'prix'        => 75000,
                 'prix_promo'  => null,
                 'stock'       => 12,
-                'image'       => 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400',
+                'image'       => 'images/products/baskets.jpg',
                 'statut'      => 'actif',
             ],
             // Électronique
@@ -206,7 +207,7 @@ class DatabaseSeeder extends Seeder
                 'prix'        => 320000,
                 'prix_promo'  => 295000,
                 'stock'       => 5,
-                'image'       => 'https://images.unsplash.com/photo-1593359677879-a4bb92f4cf4c?w=400',
+                'image'       => 'images/products/tv.jpg',
                 'statut'      => 'actif',
             ],
             [
@@ -217,7 +218,7 @@ class DatabaseSeeder extends Seeder
                 'prix'        => 285000,
                 'prix_promo'  => null,
                 'stock'       => 8,
-                'image'       => 'https://images.unsplash.com/photo-1635048424329-a9bfb146d7aa?w=400',
+                'image'       => 'images/products/climatiseur.jpg',
                 'statut'      => 'actif',
             ],
             // Informatique
@@ -229,7 +230,7 @@ class DatabaseSeeder extends Seeder
                 'prix'        => 495000,
                 'prix_promo'  => 465000,
                 'stock'       => 6,
-                'image'       => 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=400',
+                'image'       => 'images/products/laptop.jpg',
                 'statut'      => 'actif',
             ],
             [
@@ -240,7 +241,7 @@ class DatabaseSeeder extends Seeder
                 'prix'        => 85000,
                 'prix_promo'  => null,
                 'stock'       => 10,
-                'image'       => 'https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=400',
+                'image'       => 'images/products/imprimante.jpg',
                 'statut'      => 'actif',
             ],
             // Artisanat
@@ -252,7 +253,7 @@ class DatabaseSeeder extends Seeder
                 'prix'        => 25000,
                 'prix_promo'  => null,
                 'stock'       => 10,
-                'image'       => 'https://images.unsplash.com/photo-1590736969955-71cc94801759?w=400',
+                'image'       => 'images/products/sculpture.jpg',
                 'statut'      => 'actif',
             ],
             [
@@ -263,7 +264,7 @@ class DatabaseSeeder extends Seeder
                 'prix'        => 15000,
                 'prix_promo'  => 12000,
                 'stock'       => 20,
-                'image'       => 'https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=400',
+                'image'       => 'images/products/sac.jpg',
                 'statut'      => 'actif',
             ],
             // Beauté
@@ -275,7 +276,52 @@ class DatabaseSeeder extends Seeder
                 'prix'        => 5000,
                 'prix_promo'  => null,
                 'stock'       => 100,
-                'image'       => 'https://images.unsplash.com/photo-1608248597279-f99d160bfcbc?w=400',
+                'image'       => 'images/products/karite.jpg',
+                'statut'      => 'actif',
+            ],
+            // Alimentation
+            [
+                'vendor_id'   => $boutique2->id,
+                'category_id' => $categories[4]->id,
+                'nom'         => 'Huile de Karité Alimentaire',
+                'description' => 'Huile de karité 100% naturelle, idéale pour la cuisine africaine. Produit local du Mali.',
+                'prix'        => 3500,
+                'prix_promo'  => null,
+                'stock'       => 50,
+                'image'       => 'images/products/huile.jpg',
+                'statut'      => 'actif',
+            ],
+            [
+                'vendor_id'   => $boutique2->id,
+                'category_id' => $categories[4]->id,
+                'nom'         => 'Café Touba du Mali',
+                'description' => 'Café Touba authentique, aromatisé aux épices. Boisson traditionnelle très appréciée.',
+                'prix'        => 2500,
+                'prix_promo'  => 2000,
+                'stock'       => 100,
+                'image'       => 'images/products/cafe.jpg',
+                'statut'      => 'actif',
+            ],
+            [
+                'vendor_id'   => $boutique2->id,
+                'category_id' => $categories[4]->id,
+                'nom'         => 'Mil Local du Mali',
+                'description' => 'Mil 100% local cultivé au Mali. Idéal pour le tô, le dégué et autres plats traditionnels.',
+                'prix'        => 5000,
+                'prix_promo'  => null,
+                'stock'       => 80,
+                'image'       => 'images/products/mil.jpg',
+                'statut'      => 'actif',
+            ],
+            [
+                'vendor_id'   => $boutique2->id,
+                'category_id' => $categories[4]->id,
+                'nom'         => 'Bissap Séché (Hibiscus)',
+                'description' => 'Fleurs de bissap séchées pour faire le jus de bissap, boisson rafraîchissante très populaire au Mali.',
+                'prix'        => 1500,
+                'prix_promo'  => null,
+                'stock'       => 200,
+                'image'       => 'images/products/bissap.jpg',
                 'statut'      => 'actif',
             ],
         ];

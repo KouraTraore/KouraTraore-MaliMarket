@@ -215,7 +215,7 @@
         <div class="d-flex justify-content-between">
             <span><i class="fas fa-map-marker-alt me-1"></i> Livraison à Bamako et partout au Mali</span>
             <div>
-                <a href="#"><i class="fas fa-phone me-1"></i> +223 70 00 00 00</a>
+                <a href="#"><i class="fas fa-phone me-1"></i>+223 90 85 93 91 </a>
                 <span class="mx-2">|</span>
                 <a href="#"><i class="fas fa-envelope me-1"></i> contact@malimarket.ml</a>
             </div>
@@ -339,7 +339,7 @@
             <div class="col-lg-4 mb-4">
                 <h5>Contact</h5>
                 <p class="small"><i class="fas fa-map-marker-alt me-2"></i>Bamako, Mali</p>
-                <p class="small"><i class="fas fa-phone me-2"></i>+223 70 00 00 00</p>
+                <p class="small"><i class="fas fa-phone me-2"></i>+223 90 85 93 91</p>
                 <p class="small"><i class="fas fa-envelope me-2"></i>contact@malimarket.ml</p>
             </div>
         </div>

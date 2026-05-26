@@ -9,7 +9,7 @@
     <div class="rounded-4 p-5 mb-5 text-white text-center"
         style="background: linear-gradient(135deg, #1a5276 0%, #2ecc71 100%);">
         @if($category->image)
-            <img src="{{ $category->image }}" class="rounded-circle mb-3"
+           <img src="{{ asset($category->image) }}" class="rounded-circle mb-3"
                 style="width: 80px; height: 80px; object-fit: cover; border: 3px solid white;">
         @endif
         <h2 class="fw-bold mb-2">{{ $category->nom }}</h2>
@@ -24,7 +24,7 @@
             <div class="card product-card h-100">
                 <div class="position-relative">
                     @if($product->image)
-                        <img src="{{ $product->image }}" alt="{{ $product->nom }}">
+                        <img src="{{ asset($product->image) }}" alt="{{ $product->nom }}">
                     @else
                         <div class="d-flex align-items-center justify-content-center bg-light"
                             style="height: 220px;">

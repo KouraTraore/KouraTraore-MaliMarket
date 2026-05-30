@@ -88,7 +88,7 @@
                             <tr>
                                 <td class="ps-4">
                                     @if($product->image)
-                                        <img src="{{ $product->image }}" class="rounded-3"
+                                        <img src="{{ asset($product->image) }}" class="rounded-3"
                                             style="width:50px;height:50px;object-fit:cover;">
                                     @else
                                         <div class="bg-light rounded-3 d-flex align-items-center justify-content-center"

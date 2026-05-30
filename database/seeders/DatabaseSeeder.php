@@ -331,5 +331,65 @@ class DatabaseSeeder extends Seeder
                 'slug' => Str::slug($product['nom']) . '-' . uniqid(),
             ]));
         }
+        // ========== ZONES DE LIVRAISON ==========
+$zones = [
+    // Zone 1 - Centre ville (moins cher)
+    ['quartier' => 'Médina Coura',      'frais' => 1000],
+    ['quartier' => 'Badalabougou',      'frais' => 1000],
+    ['quartier' => 'Hippodrome',        'frais' => 1000],
+    ['quartier' => 'Quinzambougou',     'frais' => 1000],
+    ['quartier' => 'Bagadadji',         'frais' => 1000],
+    ['quartier' => 'Niarela',           'frais' => 1000],
+
+    // Zone 2 - Communes proches (moyen)
+    ['quartier' => 'ACI 2000',          'frais' => 1500],
+    ['quartier' => 'Hamdallaye',        'frais' => 1500],
+    ['quartier' => 'Kalabanbougou',     'frais' => 1500],
+    ['quartier' => 'Sebenikoro',        'frais' => 1500],
+    ['quartier' => 'Kalaban Coura',     'frais' => 1500],
+    ['quartier' => 'Magnambougou',      'frais' => 1500],
+    ['quartier' => 'Sogoniko',          'frais' => 1500],
+    ['quartier' => 'Lafiabougou',       'frais' => 1500],
+    ['quartier' => 'Djelibougou',       'frais' => 1500],
+    ['quartier' => 'Missabougou',       'frais' => 1500],
+    ['quartier' => 'Faladié',           'frais' => 1500],
+    ['quartier' => 'Sabalibougou',      'frais' => 1500],
+
+    // Zone 3 - Périphérie (plus cher)
+    ['quartier' => 'Sotuba',            'frais' => 2000],
+    ['quartier' => 'Yirimadio',         'frais' => 2000],
+    ['quartier' => 'Banconi',           'frais' => 2000],
+    ['quartier' => 'Nafadji',           'frais' => 2000],
+    ['quartier' => 'Sikoroni',          'frais' => 2000],
+    ['quartier' => 'Korofina',          'frais' => 2000],
+    ['quartier' => 'Niamakoro',         'frais' => 2000],
+    ['quartier' => 'Garantibougou',     'frais' => 2000],
+    ['quartier' => 'Kabala',            'frais' => 2000],
+
+    // Zone 4 - Très loin (plus cher)
+    ['quartier' => 'Kati',              'frais' => 3000],
+    ['quartier' => 'Dialakorodji',      'frais' => 3000],
+    ['quartier' => 'Sanankoroba',       'frais' => 3000],
+    ['quartier' => 'Kalabancoro',       'frais' => 2500],
+    ['quartier' => 'Ouéléssébougou',    'frais' => 5000],
+
+    // Autres villes du Mali
+    ['quartier' => 'Sikasso',           'frais' => 10000],
+    ['quartier' => 'Ségou',             'frais' => 10000],
+    ['quartier' => 'Mopti',             'frais' => 15000],
+    ['quartier' => 'Kayes',             'frais' => 15000],
+    ['quartier' => 'Gao',               'frais' => 20000],
+    ['quartier' => 'Tombouctou',        'frais' => 25000],
+    ['quartier' => 'Koulikoro',         'frais' => 8000],
+];
+
+foreach ($zones as $zone) {
+    \App\Models\ZoneLivraison::create([
+        'quartier' => $zone['quartier'],
+        'ville'    => isset($zone['ville']) ? $zone['ville'] : 'Bamako',
+        'frais'    => $zone['frais'],
+    ]);
+}
     }
+    
 }

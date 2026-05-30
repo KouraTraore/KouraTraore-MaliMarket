@@ -29,71 +29,84 @@ class ProductController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $request->validate([
-            'nom'         => 'required|string|max:255',
-            'prix'        => 'required|numeric|min:0',
-            'stock'       => 'required|integer|min:0',
-            'category_id' => 'required|exists:categories,id',
-        ]);
+{
+    $request->validate([
+        'nom'         => 'required|string|max:255',
+        'prix'        => 'required|numeric|min:0',
+        'stock'       => 'required|integer|min:0',
+        'category_id' => 'required|exists:categories,id',
+        'image_file'  => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+    ]);
 
-        $vendor = Auth::user()->vendor;
+    $vendor = Auth::user()->vendor;
 
-        Product::create([
-            'nom'         => $request->nom,
-            'slug'        => Str::slug($request->nom) . '-' . uniqid(),
-            'description' => $request->description,
-            'prix'        => $request->prix,
-            'prix_promo'  => $request->prix_promo,
-            'stock'       => $request->stock,
-            'image'       => $request->image,
-            'category_id' => $request->category_id,
-            'vendor_id'   => $vendor->id,
-            'statut'      => 'en_attente',
-        ]);
-
-        return redirect()->route('vendor.products.index')
-            ->with('success', 'Produit ajouté ! En attente de validation par l\'admin.');
+    // Gérer l'image
+    $imagePath = null;
+    if ($request->hasFile('image_file')) {
+        $file = $request->file('image_file');
+        $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+        $file->move(public_path('images/products'), $filename);
+        $imagePath = 'images/products/' . $filename;
+    } elseif ($request->image) {
+        $imagePath = $request->image;
     }
 
-    public function edit(Product $product)
-    {
-        // Vérifier que le produit appartient au vendeur
-        if ($product->vendor_id != Auth::user()->vendor->id) {
-            abort(403);
-        }
-        $categories = Category::where('active', true)->get();
-        return view('vendor.products.edit', compact('product', 'categories'));
+    Product::create([
+        'nom'         => $request->nom,
+        'slug'        => Str::slug($request->nom) . '-' . uniqid(),
+        'description' => $request->description,
+        'prix'        => $request->prix,
+        'prix_promo'  => $request->prix_promo,
+        'stock'       => $request->stock,
+        'image'       => $imagePath,
+        'category_id' => $request->category_id,
+        'vendor_id'   => $vendor->id,
+        'statut'      => 'en_attente',
+    ]);
+
+    return redirect()->route('vendor.products.index')
+        ->with('success', 'Produit ajouté ! En attente de validation par l\'admin.');
+}
+
+public function update(Request $request, Product $product)
+{
+    if ($product->vendor_id != Auth::user()->vendor->id) {
+        abort(403);
     }
 
-    public function update(Request $request, Product $product)
-    {
-        if ($product->vendor_id != Auth::user()->vendor->id) {
-            abort(403);
-        }
+    $request->validate([
+        'nom'         => 'required|string|max:255',
+        'prix'        => 'required|numeric|min:0',
+        'stock'       => 'required|integer|min:0',
+        'category_id' => 'required|exists:categories,id',
+        'image_file'  => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+    ]);
 
-        $request->validate([
-            'nom'         => 'required|string|max:255',
-            'prix'        => 'required|numeric|min:0',
-            'stock'       => 'required|integer|min:0',
-            'category_id' => 'required|exists:categories,id',
-        ]);
-
-        $product->update([
-            'nom'         => $request->nom,
-            'description' => $request->description,
-            'prix'        => $request->prix,
-            'prix_promo'  => $request->prix_promo,
-            'stock'       => $request->stock,
-            'image'       => $request->image,
-            'category_id' => $request->category_id,
-            'statut'      => 'en_attente',
-        ]);
-
-        return redirect()->route('vendor.products.index')
-            ->with('success', 'Produit modifié ! En attente de validation.');
+    // Gérer l'image
+    $imagePath = $product->image;
+    if ($request->hasFile('image_file')) {
+        $file = $request->file('image_file');
+        $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+        $file->move(public_path('images/products'), $filename);
+        $imagePath = 'images/products/' . $filename;
+    } elseif ($request->image) {
+        $imagePath = $request->image;
     }
 
+    $product->update([
+        'nom'         => $request->nom,
+        'description' => $request->description,
+        'prix'        => $request->prix,
+        'prix_promo'  => $request->prix_promo,
+        'stock'       => $request->stock,
+        'image'       => $imagePath,
+        'category_id' => $request->category_id,
+        'statut'      => 'en_attente',
+    ]);
+
+    return redirect()->route('vendor.products.index')
+        ->with('success', 'Produit modifié ! En attente de validation.');
+}
     public function destroy(Product $product)
     {
         if ($product->vendor_id != Auth::user()->vendor->id) {

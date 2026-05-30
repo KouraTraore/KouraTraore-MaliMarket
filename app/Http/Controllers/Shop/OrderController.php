@@ -14,26 +14,28 @@ use App\Mail\CommandeConfirmation;
 
 class OrderController extends Controller
 {
-    public function checkout()
-    {
-        $cart = session()->get('cart', []);
+   public function checkout()
+{
+    $cart = session()->get('cart', []);
 
-        if (empty($cart)) {
-            return redirect()->route('cart.index')
-                ->with('error', 'Votre panier est vide !');
-        }
-
-        return view('shop.checkout');
+    if (empty($cart)) {
+        return redirect()->route('cart.index')
+            ->with('error', 'Votre panier est vide !');
     }
+
+    $zones = \App\Models\ZoneLivraison::orderBy('frais')->orderBy('quartier')->get();
+
+    return view('shop.checkout', compact('zones'));
+}
 
     public function store(Request $request)
 {
     $request->validate([
-        'nom_livraison'      => 'required|string|max:255',
-        'telephone_livraison'=> 'required|string|max:20',
-        'adresse_livraison'  => 'required|string|max:255',
-        'ville_livraison'    => 'required|string',
-        'mode_paiement'      => 'required|in:livraison,orange_money,moov_money',
+        'nom_livraison'       => 'required|string|max:255',
+        'telephone_livraison' => 'required|string|max:20',
+        'adresse_livraison'   => 'required|string|max:255',
+        'zone_id'             => 'required|exists:zones_livraison,id',
+        'mode_paiement'       => 'required|in:livraison,orange_money,moov_money',
     ]);
 
     $cart = session()->get('cart', []);
@@ -43,13 +45,18 @@ class OrderController extends Controller
             ->with('error', 'Votre panier est vide !');
     }
 
-    $total = array_sum(array_map(
+    $zone = \App\Models\ZoneLivraison::findOrFail($request->zone_id);
+
+    $sousTotal = array_sum(array_map(
         fn($item) => $item['prix'] * $item['quantite'], $cart
     ));
 
+    $fraisLivraison = $zone->frais;
+    $total = $sousTotal + $fraisLivraison;
+
     $order = null;
 
-    DB::transaction(function () use ($request, $cart, $total, &$order) {
+    DB::transaction(function () use ($request, $cart, $total, $sousTotal, $fraisLivraison, $zone, &$order) {
         $order = Order::create([
             'user_id'             => Auth::id(),
             'numero'              => 'MM-' . date('Ymd') . '-' . strtoupper(uniqid()),
@@ -60,7 +67,7 @@ class OrderController extends Controller
             'nom_livraison'       => $request->nom_livraison,
             'telephone_livraison' => $request->telephone_livraison,
             'adresse_livraison'   => $request->adresse_livraison,
-            'ville_livraison'     => $request->ville_livraison,
+            'ville_livraison'     => $zone->quartier . ', ' . $zone->ville,
             'notes'               => $request->notes,
         ]);
 
@@ -86,7 +93,7 @@ class OrderController extends Controller
         $order->load('items.product', 'user');
         Mail::to($order->user->email)->send(new CommandeConfirmation($order));
     } catch (\Exception $e) {
-        // Si l'email échoue, la commande est quand même passée
+        //
     }
 
     return redirect()->route('orders.index')

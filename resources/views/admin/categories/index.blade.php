@@ -75,7 +75,7 @@
             <div class="col-md-3">
                 <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
                     @if($category->image)
-                        <img src="{{ $category->image }}" alt="{{ $category->nom }}"
+                        <img src="{{ asset($category->image) }}" alt="{{ $category->nom }}"
                             style="height: 150px; object-fit: cover; width: 100%;">
                     @else
                         <div class="d-flex align-items-center justify-content-center bg-light"

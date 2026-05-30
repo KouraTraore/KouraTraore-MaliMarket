@@ -15,30 +15,42 @@ class RegisterController extends Controller
         return view('auth.register');
     }
 
-    public function register(Request $request)
-    {
-        $request->validate([
-            'name'      => 'required|string|max:255',
-            'email'     => 'required|email|unique:users',
-            'password'  => 'required|string|min:6|confirmed',
-            'telephone' => 'nullable|string|max:20',
-            'role'      => 'nullable|in:client,vendeur',
+   public function register(Request $request)
+{
+    $request->validate([
+        'name'      => 'required|string|max:255',
+        'email'     => 'required|email|unique:users',
+        'password'  => 'required|string|min:6|confirmed',
+        'telephone' => 'nullable|string|max:20',
+        'role'      => 'nullable|in:client,vendeur',
+    ]);
+
+    $user = User::create([
+        'name'      => $request->name,
+        'email'     => $request->email,
+        'password'  => Hash::make($request->password),
+        'telephone' => $request->telephone,
+        'role'      => $request->role ?? 'client',
+    ]);
+
+    Auth::login($user);
+
+    // Si vendeur → créer automatiquement sa boutique
+    if ($user->role === 'vendeur') {
+        \App\Models\Vendor::create([
+            'user_id'      => $user->id,
+            'nom_boutique' => $user->name . "'s Shop",
+            'slug'         => \Illuminate\Support\Str::slug($user->name) . '-' . uniqid(),
+            'telephone'    => $user->telephone,
+            'ville'        => 'Bamako',
+            'statut'       => 'en_attente',
+            'commission'   => 10.00,
         ]);
 
-        $user = User::create([
-            'name'      => $request->name,
-            'email'     => $request->email,
-            'password'  => Hash::make($request->password),
-            'telephone' => $request->telephone,
-            'role'      => $request->role ?? 'client',
-        ]);
-
-        Auth::login($user);
-
-        if ($user->role === 'vendeur') {
-            return redirect()->route('vendor.dashboard');
-        }
-
-        return redirect()->route('home');
+        return redirect()->route('vendor.dashboard')
+            ->with('success', 'Bienvenue ! Votre boutique a été créée. En attente de validation par l\'admin.');
     }
+
+    return redirect()->route('home');
+}
 }

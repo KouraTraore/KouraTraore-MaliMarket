@@ -28,31 +28,43 @@ class ProductController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $request->validate([
-            'nom'         => 'required|string|max:255',
-            'prix'        => 'required|numeric|min:0',
-            'stock'       => 'required|integer|min:0',
-            'category_id' => 'required|exists:categories,id',
-            'vendor_id'   => 'required|exists:vendors,id',
-        ]);
+{
+    $request->validate([
+        'nom'         => 'required|string|max:255',
+        'prix'        => 'required|numeric|min:0',
+        'stock'       => 'required|integer|min:0',
+        'category_id' => 'required|exists:categories,id',
+        'vendor_id'   => 'required|exists:vendors,id',
+        'image_file'  => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+    ]);
 
-        Product::create([
-            'nom'         => $request->nom,
-            'slug'        => Str::slug($request->nom) . '-' . uniqid(),
-            'description' => $request->description,
-            'prix'        => $request->prix,
-            'prix_promo'  => $request->prix_promo,
-            'stock'       => $request->stock,
-            'image'       => $request->image,
-            'category_id' => $request->category_id,
-            'vendor_id'   => $request->vendor_id,
-            'statut'      => $request->statut ?? 'actif',
-        ]);
-
-        return redirect()->route('admin.products.index')
-            ->with('success', 'Produit créé avec succès !');
+    // Gérer l'image
+    $imagePath = null;
+    if ($request->hasFile('image_file')) {
+        $file = $request->file('image_file');
+        $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+        $file->move(public_path('images/products'), $filename);
+        $imagePath = 'images/products/' . $filename;
+    } elseif ($request->image) {
+        $imagePath = $request->image;
     }
+
+    Product::create([
+        'nom'         => $request->nom,
+        'slug'        => Str::slug($request->nom) . '-' . uniqid(),
+        'description' => $request->description,
+        'prix'        => $request->prix,
+        'prix_promo'  => $request->prix_promo,
+        'stock'       => $request->stock,
+        'image'       => $imagePath,
+        'category_id' => $request->category_id,
+        'vendor_id'   => $request->vendor_id,
+        'statut'      => $request->statut ?? 'actif',
+    ]);
+
+    return redirect()->route('admin.products.index')
+        ->with('success', 'Produit créé avec succès !');
+}
 
     public function edit(Product $product)
     {
@@ -62,30 +74,42 @@ class ProductController extends Controller
     }
 
     public function update(Request $request, Product $product)
-    {
-        $request->validate([
-            'nom'         => 'required|string|max:255',
-            'prix'        => 'required|numeric|min:0',
-            'stock'       => 'required|integer|min:0',
-            'category_id' => 'required|exists:categories,id',
-            'vendor_id'   => 'required|exists:vendors,id',
-        ]);
+{
+    $request->validate([
+        'nom'         => 'required|string|max:255',
+        'prix'        => 'required|numeric|min:0',
+        'stock'       => 'required|integer|min:0',
+        'category_id' => 'required|exists:categories,id',
+        'vendor_id'   => 'required|exists:vendors,id',
+        'image_file'  => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+    ]);
 
-        $product->update([
-            'nom'         => $request->nom,
-            'description' => $request->description,
-            'prix'        => $request->prix,
-            'prix_promo'  => $request->prix_promo,
-            'stock'       => $request->stock,
-            'image'       => $request->image,
-            'category_id' => $request->category_id,
-            'vendor_id'   => $request->vendor_id,
-            'statut'      => $request->statut,
-        ]);
-
-        return redirect()->route('admin.products.index')
-            ->with('success', 'Produit modifié avec succès !');
+    // Gérer l'image
+    $imagePath = $product->image;
+    if ($request->hasFile('image_file')) {
+        $file = $request->file('image_file');
+        $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+        $file->move(public_path('images/products'), $filename);
+        $imagePath = 'images/products/' . $filename;
+    } elseif ($request->image) {
+        $imagePath = $request->image;
     }
+
+    $product->update([
+        'nom'         => $request->nom,
+        'description' => $request->description,
+        'prix'        => $request->prix,
+        'prix_promo'  => $request->prix_promo,
+        'stock'       => $request->stock,
+        'image'       => $imagePath,
+        'category_id' => $request->category_id,
+        'vendor_id'   => $request->vendor_id,
+        'statut'      => $request->statut,
+    ]);
+
+    return redirect()->route('admin.products.index')
+        ->with('success', 'Produit modifié avec succès !');
+}
 
     public function destroy(Product $product)
     {

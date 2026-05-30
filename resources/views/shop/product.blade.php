@@ -19,7 +19,7 @@
         <div class="col-lg-5">
             <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
                 @if($product->image)
-                    <img src="{{ $product->image }}" alt="{{ $product->nom }}" class="w-100" style="height: 400px; object-fit: cover;">
+                    <img src="{{ asset($product->image) }}" alt="{{ $product->nom }}" class="w-100" style="height: 400px; object-fit: cover;">
                 @else
                     <div class="d-flex align-items-center justify-content-center bg-light" style="height: 400px;">
                         <i class="fas fa-image fa-5x text-secondary"></i>
@@ -236,7 +236,7 @@
                 <div class="card product-card h-100">
                     <div class="position-relative">
                         @if($p->image)
-                            <img src="{{ $p->image }}" alt="{{ $p->nom }}">
+                            <img src="{{ asset($p->image) }}" alt="{{ $p->nom }}">
                         @else
                             <div class="d-flex align-items-center justify-content-center bg-light" style="height: 220px;">
                                 <i class="fas fa-image fa-3x text-secondary"></i>
